@@ -693,9 +693,10 @@ def decode_and_decrypt_file(
         raise FileNotFoundError(f"World audio not found: {world_audio_path}")
 
     # Step 1: Determine how many bits to extract
-    # For now, we'll extract a reasonable number of bits for a typical payload
-    # In a real implementation, we'd extract the header first to determine exact length
-    estimated_payload_bits = 10000  # Conservative estimate
+    # Extract enough bits to read the header (at least 320 bits for 40 bytes)
+    # Use a reasonable number that should be sufficient for most payloads
+    # This is a compromise between reliability and efficiency
+    estimated_payload_bits = 2048  # Enough for header + some margin
     
     # Step 2: Extract bits from stego audio
     bits = extract_bits_spread_spectrum(stego_path, estimated_payload_bits)
